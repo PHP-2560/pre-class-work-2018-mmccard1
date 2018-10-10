@@ -102,6 +102,11 @@ x <- c(2, 4, 6)
 standardize.me(x)
 ```
 
+```{r}
+library(dplyr) # import dplyr to use select_if function
+WCGS.new <- select_if(wcgs, is.numeric) # create new dataset WCGS.new from wcgs only including columns if their is.numeric returns TRUE
+glimpse(WCGS.new) # verify that the new dataset is only numeric variables
+```
 
 
 ### Question 2: Looping to Calculate
