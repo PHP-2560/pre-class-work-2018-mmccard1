@@ -91,6 +91,16 @@ B. Assign all the numeric columns of the original WCGS dataset to a new dataset 
 C. Using a loop and your new function, standardize all the variables WCGS.new dataset.
 D. What should the mean and standard deviation of all your new standardized variables be? Test your prediction by running a loop
 
+```{r}
+standardize.me <- function(x) {
+  standard.x <- ((x - mean(x))/sd(x)) # calculate and return each standardized value as element of the vector standard.x
+  standard.x # return the standardized vector
+}
+
+# test case for standardize.me
+x <- c(2, 4, 6) 
+standardize.me(x)
+```
 
 
 
