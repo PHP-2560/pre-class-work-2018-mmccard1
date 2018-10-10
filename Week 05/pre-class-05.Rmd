@@ -107,6 +107,20 @@ library(dplyr) # import dplyr to use select_if function
 WCGS.new <- select_if(wcgs, is.numeric) # create new dataset WCGS.new from wcgs only including columns if their is.numeric returns TRUE
 glimpse(WCGS.new) # verify that the new dataset is only numeric variables
 ```
+```{r}
+library(purrr) # import the purrr package to use map()
+WCGS.new <- map(WCGS.new, standardize.me) # for every column in WCGS.new, apply the standardize.me function
+str(WCGS.new) # verify that the output dataset appears as expected
+
+```
+```{r}
+# With standardized variables all means should be zero and standard deviations should be one
+WCGS.new.means <- unlist(map(WCGS.new, mean, na.rm=TRUE))
+WCGS.new.sds <- unlist(map(WCGS.new, sd, na.rm=TRUE))
+
+WCGS.new.means
+WCGS.new.sds
+```
 
 
 ### Question 2: Looping to Calculate
