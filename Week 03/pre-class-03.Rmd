@@ -73,6 +73,10 @@ select(gapminder, country, lifeExp, year) %>%
 
 6. What 10 countries have the strongest correlation (in either direction) between life expectancy and per capita GDP?
 ```{r}
+group_by(gapminder, country) %>%
+  mutate(lifeGDPcor = abs(cor(lifeExp, gdpPercap))) %>%
+  summarise(correlation = mean(lifeGDPcor)) %>%
+  arrange(desc(correlation))
 
 ```
 
