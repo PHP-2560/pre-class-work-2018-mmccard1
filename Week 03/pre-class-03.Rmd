@@ -10,16 +10,16 @@ Make sure you commit this often with meaningful messages.
 
 We will work with the dataset called [gapminder](https://github.com/jennybc/gapminder), this is a cleaned up version from [Gapminder Data](http://www.gapminder.org/data/). Gapminder contains a lot of great data on all of the nations of the world. We first need to install the gapminder package in R. 
 
-```
+```{r}
 install.packages("gapminder")
 ```
 
-
-
-```
+```{r}
 library(dplyr)
 library(gapminder)
 gapminder
+
+glimpse(gapminder)
 ```
 
 
@@ -29,7 +29,20 @@ gapminder
 Use **dplyr** functions to address the following questions:
 
 1. How many unique countries are represented per continent?
+```{r}
+group_by(gapminder, continent) %>%
+summarise(noOfCountries <- n_distinct(country))
+```
+
 2. Which European nation had the lowest GDP per capita in 1997? 
+
+```{r}
+lowGdp97 <- filter(gapminder, continent == "Europe", year == "1997") %>%
+  arrange(gdpPercap)
+
+print(lowGdp97[1,1])
+```
+
 3. According to the data available, what was the average life expectancy across each continent in the 1980s?
 4. What 5 countries have the highest total GDP over all years combined?
 5. What countries and years had life expectancies of _at least_ 80 years? _N.b. only output the columns of interest: country, life expectancy and year (in that order)._
