@@ -1,5 +1,6 @@
 # pre-class
 
+# test commit
 
 Make sure you commit this often with meaningful messages. 
 
