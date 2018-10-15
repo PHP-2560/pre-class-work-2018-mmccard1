@@ -98,6 +98,8 @@ sd(big.exp.draws.1)
     b. Plot a histogram of `big.exp.draws.1`.  Does it match the function \(1-e^{-x}\)?  Should it? 
 ```{r}
 hist(big.exp.draws.1)
+
+# Yes, it matches the function, which it should.
 ```
     
 
@@ -114,6 +116,8 @@ mean(big.exp.draws.gt1)
 
 big.exp.draws.1.mat <- matrix(big.exp.draws.1, nrow = 1100, ncol = 1000)
 big.exp.mat.hist <- hist(big.exp.draws.1.mat)
+
+# Nothing happens to the data, it is presented in the same fashion as when we used the data not in matrix form. 
 ```
 
 
@@ -134,6 +138,8 @@ for (i in 1:1000) {
 }
 
 hist(col_means)
+
+# The histogram in 5b is a histogram representing the individual points sampled from the exponential distribution. This histogram shows the distribution obtained by calculating and plotting the means of the columns of the matrix. Taking the mean of each column of randomly selected elements results in a normal distribution. 
 ```
   
    
