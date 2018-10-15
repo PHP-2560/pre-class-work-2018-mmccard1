@@ -44,6 +44,15 @@ print(lowGdp97[1,1])
 ```
 
 3. According to the data available, what was the average life expectancy across each continent in the 1980s?
+
+```{r}
+lifeExp80s <- group_by(gapminder, continent) %>%
+  filter(year == 1980:1989) %>%
+  summarise(contLifeExp <- mean(lifeExp))
+
+lifeExp80s
+```
+
 4. What 5 countries have the highest total GDP over all years combined?
 5. What countries and years had life expectancies of _at least_ 80 years? _N.b. only output the columns of interest: country, life expectancy and year (in that order)._
 6. What 10 countries have the strongest correlation (in either direction) between life expectancy and per capita GDP?
