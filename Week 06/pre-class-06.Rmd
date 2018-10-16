@@ -60,9 +60,10 @@ library(purrr)
 vapply(cars, sd, numeric(1)) # the cars data frame is all numeric, output the single sd numeric result
 
 # the internal vapply applies the "is.numeric" function to every column of the iris data frame and returns T/F for whether the column is numeric
-# the external vapply applies the sd function to the values of iris that return iris[TRUE], and returns the value as a single numeric value
+# the external vapply applies the sd function to the values of iris that return iris[TRUE], and returns the sd result as a single numeric value
 vapply(iris[vapply(iris, is.numeric, logical(1))], 
        sd,
        numeric(1))
+
 ```
     
