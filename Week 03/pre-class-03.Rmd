@@ -101,4 +101,21 @@ group_by(gapminder, country) %>%
 ```
 
 9. Subset **gm** to only include observations from 1992 and store the results as **gm1992**. What kind of object is this?
+
+```{r}
+gm1992 <- filter(gapminder, year==1992)
+class(gm1992)
+
+# gm1992 is a data frame.
+
+```
+
 10. Which observations indicate that the population of a country has *decreased* from the previous year **and** the life expectancy has *increased* from the previous year? See [the vignette on window functions](https://cran.r-project.org/web/packages/dplyr/vignettes/window-functions.html).
+
+```{r}
+group_by(gapminder, country) %>%
+  mutate(pop_dec = pop - lag(pop, order_by = year)) %>% # if the population is larger than the year before it, pop_dec will be positive - if the population is smaller (decreased) than the year prior then pop_dec will be negative
+  mutate(life_inc = lifeExp - lag(lifeExp, order_by = year)) %>% # if life expectancy increased compared to the year before it, lifeExp will be larger than lag(lifeExp) and life_inc will be positive
+  filter(pop_dec < 0, life_inc > 0)
+```
+
