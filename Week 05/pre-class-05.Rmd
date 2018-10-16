@@ -93,9 +93,9 @@ D. What should the mean and standard deviation of all your new standardized vari
 
 ```{r}
 standardize.me <- function(x) {
-  standard.x <- ((x - mean(x))/sd(x)) # calculate and return each standardized value as element of the vector standard.x
+  standard.x <- ((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE)) # calculate and return each standardized value as element of the vector standard.x
   standard.x # return the standardized vector
-}
+  }
 
 # test case for standardize.me
 x <- c(2, 4, 6) 
@@ -119,6 +119,7 @@ str(WCGS.new) # verify that the output dataset appears as expected
 WCGS.new.means <- unlist(map(WCGS.new, mean, na.rm=TRUE))
 WCGS.new.sds <- unlist(map(WCGS.new, sd, na.rm=TRUE))
 
+# Because of machine arithmetic and roundoff errors, these values may not be exact. 
 WCGS.new.means
 WCGS.new.sds
 ```
