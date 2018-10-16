@@ -128,5 +128,18 @@ WCGS.new.sds
 ### Question 2: Looping to Calculate
 
 A. Using a loop, calculate the mean weight of the subjects separated by the type of CHD they have.
+
+```{r}
+glimpse(wcgs)
+
+
+```
+
 B. Now do the same thing, but now don’t use a loop
+
+```{r}
+levels(wcgs$typchd69) = list()
+group_by(wcgs, chd69)
+```
+
 
