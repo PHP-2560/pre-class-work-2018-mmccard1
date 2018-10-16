@@ -25,17 +25,23 @@ B. Now, add all the EVEN integers between 0 and 1000 (hint: use seq())
 C. Now, repeat A and B WITHOUT using a loop.
 
 ```{r}
+# A
 sum = 0
 for (i in 1:1000) {
   sum = sum + i
 } 
 sum
 
+# B 
 sum_even = 0 
 for (num in seq(2, 1000, 2)) {
   sum_even = sum_even + num
 }
 sum_even
+
+# C
+sum(1:1000)
+sum(seq(2,1000,2))
 
 ```
 
