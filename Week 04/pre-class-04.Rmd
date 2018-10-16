@@ -10,6 +10,12 @@ Make sure you commit this often with meaningful messages.
 
 Using a loop, print the integers from 1 to 50. 
 
+```{r}
+for (i in 1:50) {
+  print(i)
+}
+```
+
 ### Question 2:
 
 A.  Using a loop, add all the integers between 0 and 1000.
@@ -17,6 +23,22 @@ A.  Using a loop, add all the integers between 0 and 1000.
 B. Now, add all the EVEN integers between 0 and 1000 (hint: use seq())
 
 C. Now, repeat A and B WITHOUT using a loop.
+
+```{r}
+sum = 0
+for (i in 1:1000) {
+  sum = sum + i
+} 
+sum
+
+sum_even = 0 
+for (num in seq(2, 1000, 2)) {
+  sum_even = sum_even + num
+}
+sum_even
+
+```
+
 
 ### Question 3:
 
