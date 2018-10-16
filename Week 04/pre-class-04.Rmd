@@ -50,7 +50,7 @@ sum(seq(2,1000,2))
 
 Here is a dataframe of survey data containing 5 questions :
 
-```{r, eval=FALSE}
+```{r}
 survey <- data.frame(
                      "participant" = c(1, 2, 3, 4, 5, 6),
                      "q1" = c(5, 3, 2, 7, 11, 0),
@@ -95,7 +95,7 @@ B. Now, again using a loop, add a new column to the dataframe called “invalid.
 mutate(survey.clean, invalid.answers = 0)
 
 for (i in 1:nrow(survey.clean)) {
-  survey.clean[i,"invalid.answers"] <- sum(is.na(survey.clean[i, ]))
+  survey.clean[i,"invalid.answers"] <- sum(is.na(survey.clean[i, 1:6]))
 }
 
 survey.clean
