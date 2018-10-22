@@ -27,10 +27,36 @@ options(scipen = 3, digits = 3)
 #Project Goals:
 
 
-With this project we will simulate a famoues probability problem. This will not require knowledge of probability or statistics but only the logic to follow the steps in order to simulate this problem. This is one way to solve problems by using the computer. 
+With this project we will simulate a famous probability problem. This will not require knowledge of probability or statistics but only the logic to follow the steps in order to simulate this problem. This is one way to solve problems by using the computer. 
 
  1. **Gambler's Ruin**: Suppose you have a bankroll of $1000 and make bets of $100 on a fair game. By simulating the outcome directly for at most 5000 iterations of the game (or hands), estimate:
     a. the probability that you have "busted" (lost all your money) by the time you have placed your one hundredth bet. 
+    
+```{r}
+
+play <- function(maxNumberOfBets, betValue, bankroll) {
+  for (i in 1:maxNumberOfBets) {
+    if (bankroll >= betValue) {
+      betCount <- betCount + 1
+      if (rbinom(1, 1, 0.5) == 1) {
+        bankroll <- bankroll + betValue
+      } else {
+        bankroll <- bankroll - betValue
+      }
+    } else {
+      break
+    }
+  }
+  return(bankroll)
+}
+
+busted <- replicate(5000, (play(100,100,1000)==0))
+bustedProb <- (sum(busted) / 5000)
+
+print(bustedProb)
+```
+
+    
     b. the probability that you have busted by the time you have placed your five hundredth bet by simulating the outcome directly. 
     c. the mean time you go bust, given that you go bust within the first 5000 hands.
     d. the mean and variance of your bankroll after 100 hands (including busts).
