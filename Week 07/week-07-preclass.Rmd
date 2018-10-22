@@ -84,9 +84,9 @@ playCount <- function(maxNumberOfBets, betValue, bankroll) {
   return(betCount)
 }
 
-bustMean <- function(numberofHands) {
+bustMean <- function(numberOfHands, maxNumberOfBets=100, betValue=100, bankroll=1000) {
   bustNums <- vector(length = 0)
-  bustCount <- replicate(numberofHands, playCount(100, 100, 1000))
+  bustCount <- replicate(numberOfHands, playCount(maxNumberOfBets, betValue, bankroll))
   for (i in 1:length(bustCount)) {
     if (bustCount[i] < 100) {
       bustNums <- c(bustNums, bustCount[i])
@@ -100,7 +100,26 @@ bustMean(5000)
 
 
 d. the mean and variance of your bankroll after 100 hands (including busts).
+
+```{r}
+
+bankrollMeanVar <- function(numberOfHands) {
+  bankrollTotals <- replicate(numberOfHands, playBank(100, 100, 1000))
+  bankrollMean <- mean(bankrollTotals)
+  bankrollVar <- var(bankrollTotals)
+  print(paste("The bankroll mean after", numberOfHands, "hands is: $", bankrollMean))
+  print(paste("The bankroll variance after", numberOfHands, "hands is: $", round(bankrollVar, 2)))
+}
+
+bankrollMeanVar(100)
+```
+
 e. the mean and variance of your bankroll after 500 hands (including busts).
+
+```{r}
+bankrollMeanVar(500)
+```
+
  
 Note: you *must* stop playing if your player has gone bust. How will you handle this in the `for` loop?
 
