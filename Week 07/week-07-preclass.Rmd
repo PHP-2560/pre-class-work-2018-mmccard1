@@ -1,6 +1,6 @@
 ---
 title: "Simulations Pre-Class Project"
-date: "Due March 13, 2017 at 5:00pm"
+date: 
 output:
   html_document
 
