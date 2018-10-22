@@ -68,7 +68,7 @@ c. the mean time you go bust, given that you go bust within the first 5000 hands
 ```{r}
 
 playCount <- function(maxNumberOfBets, betValue, bankroll) {
-  betCount <- 0 
+  betCount <- 0
   for (i in 1:maxNumberOfBets) {
     if (bankroll >= betValue) {
       betCount <- betCount + 1
@@ -84,8 +84,15 @@ playCount <- function(maxNumberOfBets, betValue, bankroll) {
   return(betCount)
 }
 
-betCounts <- 
-replicate(5000, (playCount(100, 100, 1000) < 100))
+bustCount <- replicate(5000, playCount(100, 100, 1000))
+bustNums <- vector(length = 0)
+for (i in 1:length(bustCount)) {
+  if (bustCount[i] < 100) {
+    bustNums <- c(bustNums, bustCount[i])
+  }
+}
+
+mean(bustNums)
 ```
 
 
