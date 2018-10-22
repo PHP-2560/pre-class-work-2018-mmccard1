@@ -84,9 +84,9 @@ playCount <- function(maxNumberOfBets, betValue, bankroll) {
   return(betCount)
 }
 
-bustMean <- function(numberOfHands, maxNumberOfBets=100, betValue=100, bankroll=1000) {
+bustMean <- function(numberOfHands) {
   bustNums <- vector(length = 0)
-  bustCount <- replicate(numberOfHands, playCount(maxNumberOfBets, betValue, bankroll))
+  bustCount <- replicate(numberOfHands, playCount(100, 100, 1000))
   for (i in 1:length(bustCount)) {
     if (bustCount[i] < 100) {
       bustNums <- c(bustNums, bustCount[i])
