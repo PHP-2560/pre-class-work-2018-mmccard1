@@ -98,7 +98,7 @@ d. the mean and variance of your bankroll after 100 hands (including busts).
 ```{r}
 
 bankrollMeanVar <- function(numberOfHands) {
-  bankrollTotals <- replicate(numberOfHands, play(100, 100, 1000, output="bankroll"))
+  bankrollTotals <- replicate(numberOfHands, play(100, 100, 1000))
   bankrollMean <- mean(bankrollTotals)
   bankrollVar <- var(bankrollTotals)
   print(paste("The bankroll mean after", numberOfHands, "hands is: $", bankrollMean))
