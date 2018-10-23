@@ -33,33 +33,44 @@ With this project we will simulate a famous probability problem. This will not r
     a. the probability that you have "busted" (lost all your money) by the time you have placed your one hundredth bet. 
     
 ```{r}
+# play function plays a fair game with a maximum number of bets, a set bet value, a bankroll, and an output argument to specify the output of the function (default output is bankroll)
 
-playBank <- function(maxNumberOfBets, betValue, bankroll) {
-  betCount <- 0
-  for (i in 1:maxNumberOfBets) {
-    if (bankroll >= betValue) {
-      betCount <- betCount + 1
-      if (rbinom(1, 1, 0.5) == 1) {
-        bankroll <- bankroll + betValue
-      } else {
-        bankroll <- bankroll - betValue
+play <- function(maxNumberOfBets, betValue, bankroll, output = "bankroll") {
+  betCount <- 0 # initialize bet counter
+  result <- matrix(NA, nrow=1, ncol=2) # initialize matrix to store betCount and bankroll final variables in case the user would like both variables outputted (specifying anything other than "bankroll" or "bet count" as the argument)
+  for (i in 1:maxNumberOfBets) { # for every bet up to the maximum number of bets
+    if (bankroll >= betValue) { # if the player has enough money to make the bet, plau - if not, break.
+      betCount <- betCount + 1 # the bet is placed, and the bet counter increases by one
+      if (rbinom(1, 1, 0.5) == 1) { # the game is played, with a random result of success or failure - 1 indicates success (you win!)
+        bankroll <- bankroll + betValue # if you win, the bet amount is added to your bankroll
+      } else { 
+        bankroll <- bankroll - betValue # if the result is not a 1, you lose, and the bet amount is subtracted from your bankroll
       }
     } else {
       break
     }
   }
-  return(bankroll)
+  result[1,1] <- betCount # update the results matrix
+  result[1,2] <- bankroll
+  
+  if (output=="bankroll"){ # output the value the user specified, or both if alternative key given
+    return(result[1,2])
+  } else if (output=="bet count") {
+    return(result[1,1])
+  } else {
+    return(result)
+  }
 }
 
-bustedProb <- (sum(replicate(5000, (playBank(100,100,1000)==0))) / 5000)
+bustedProb <- (sum(replicate(5000, (play(100,100,1000)==0))) / 5000)
 print(bustedProb)
+
 ```
 
 b. the probability that you have busted by the time you have placed your five hundredth bet by simulating the outcome directly. 
     
 ```{r}
-
-bustedProb2 <- (sum(replicate(5000, (playBank(500, 100, 1000)==0))) / 5000)
+bustedProb2 <- (sum(replicate(5000, (play(500, 100, 1000)==0))) / 5000)
 print(bustedProb2)
 
 ```
@@ -67,26 +78,9 @@ print(bustedProb2)
 c. the mean time you go bust, given that you go bust within the first 5000 hands.
 ```{r}
 
-playCount <- function(maxNumberOfBets, betValue, bankroll) {
-  betCount <- 0
-  for (i in 1:maxNumberOfBets) {
-    if (bankroll >= betValue) {
-      betCount <- betCount + 1
-      if (rbinom(1, 1, 0.5) == 1) {
-        bankroll <- bankroll + betValue
-      } else {
-        bankroll <- bankroll - betValue
-      }
-    } else {
-      break
-    }
-  }
-  return(betCount)
-}
-
-bustMean <- function(numberOfHands) {
+meanBust <- function(numberOfHands) {
   bustNums <- vector(length = 0)
-  bustCount <- replicate(numberOfHands, playCount(100, 100, 1000))
+  bustCount <- replicate(numberOfHands, play(100, 100, 1000, output="bet count"))
   for (i in 1:length(bustCount)) {
     if (bustCount[i] < 100) {
       bustNums <- c(bustNums, bustCount[i])
@@ -95,7 +89,7 @@ bustMean <- function(numberOfHands) {
   return(mean(bustNums))
 }
 
-bustMean(5000)
+meanBust(5000)
 ```
 
 
@@ -104,7 +98,7 @@ d. the mean and variance of your bankroll after 100 hands (including busts).
 ```{r}
 
 bankrollMeanVar <- function(numberOfHands) {
-  bankrollTotals <- replicate(numberOfHands, playBank(100, 100, 1000))
+  bankrollTotals <- replicate(numberOfHands, play(100, 100, 1000, output="bankroll"))
   bankrollMean <- mean(bankrollTotals)
   bankrollVar <- var(bankrollTotals)
   print(paste("The bankroll mean after", numberOfHands, "hands is: $", bankrollMean))
