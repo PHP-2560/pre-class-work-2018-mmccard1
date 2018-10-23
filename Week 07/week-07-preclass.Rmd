@@ -121,30 +121,57 @@ Note: you *must* stop playing if your player has gone bust. How will you handle 
 
 ```{r}
 
-markovGame <- function(numberOfHands, betValue, bankroll) {
-  p <- 0.48
+markovGame <- function(numberOfHands, betValue, bankroll, starting_p=0.48, increment=0.01) {
+  p <- starting_p
   
   for (i in 1:numberOfHands) {
-    if (rbinom(1, 1, p)==1) {
+    if (rbinom(1, 1, p) == 1) {
       bankroll <- bankroll + betValue
       if (p < 100) {
-        p <- (p + 0.01)
+        p <- (p + increment)
       } 
     } else {
       p <- 0.48
       bankroll <- bankroll - betValue
     } 
-    print(bankroll)
-  } 
+  }
+  return(bankroll)
 }
 
-markovGame(50, 100, 50000)
+print(markovGame(50, 100, 50000))
 
 ```
 
 
 a. Is this a fair game? Simulate one hundred thousand sequential hands to determine the size of your return. Then repeat this simulation 99 more times to get a range of values to calculate the expectation.
 
+```{r}
+return100K48 <- markovGame(100000, 100, 5000000)
+print(return100KHands)
+
+expect48 <- as.vector(replicate(100, markovGame(100000, 100, 5000000)))
+print(expect48)
+mean(expect48)
+```
+
+
 b. Repeat this process but change the starting probability to a new value within 2% either way. Get the expected return after 100 repetitions. Keep exploring until you have a return value that is as fair as you can make it. Can you do this automatically?
 
+```{r}
+return100K50 <- markovGame(100000, 100, 5000000, 0.50)
+print(return100K50)
+
+expect50 <- as.vector(replicate(100, markovGame(100000, 100, 5000000, 0.50)))
+print(expect50)
+mean(expect50)
+```
+
+
 c. Repeat again, keeping the initial probability at 48%, but this time change the probability increment to a value different from 1%. Get the expected return after 100 repetitions. Keep changing this value until you have a return value that is as fair as you can make it. 
+
+```{r}
+expectChanged <- as.vector(replicate(100, markovGame(100000, 100, 5000000, starting_p = 0.50, increment = 0.03)))
+print(expectChanged)
+mean(expectChanged)
+```
+
