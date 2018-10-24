@@ -127,7 +127,7 @@ markovGame <- function(numberOfHands, betValue, bankroll, starting_p=0.48, incre
   for (i in 1:numberOfHands) {
     if (rbinom(1, 1, p) == 1) {
       bankroll <- bankroll + betValue
-      if (p < 100) {
+      if (p < 1 - increment) {
         p <- (p + increment)
       } 
     } else {
