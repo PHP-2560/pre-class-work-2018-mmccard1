@@ -1,0 +1,34 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+
+playVector <- function(maxNumberOfBets, betValue, bankroll) {
+  game <- rep(NA, maxNumberOfBets) # initialize matrix to store betCount and bankroll final variables in case the user would like   both variables outputted (specifying anything other than "bankroll" or "bet count" as the argument)
+  for (i in 1:maxNumberOfBets) {
+    # for every bet up to the maximum number of bets
+    if (bankroll >= betValue) {
+      # if the player has enough money to make the bet, play - if not, break.
+      bankroll <-  bankroll + ((betValue*2) * rbinom(1, 1, 0.5)) - betValue
+      game[i] <- bankroll
+    } else {
+      return(game[1:i])
+      break
+    }
+  }
+  return(game[length(game)])
+}
+
+playVector(100, 100, 1000)
+
+bustedProb <- (sum(replicate(5000, (playVector(100,100,1000)) / 5000)
+print(bustedProb)
+```
+
+```{r}
+
+```
+
