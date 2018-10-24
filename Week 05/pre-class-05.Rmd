@@ -132,14 +132,29 @@ A. Using a loop, calculate the mean weight of the subjects separated by the type
 ```{r}
 glimpse(wcgs)
 
+table(wcgs$typchd69)
+
+type.chd.weight <- data.frame("typchd69" = unique(wcgs$typchd69), "weight"=NA) # create a data frame, which includes two columns, typchd69 and weight.
+
+for(i in 1:4) { # fill four new rows in the data frame, one for each type of chd
+  a <- type.chd.weight$typchd69[i] # assign a to each unique value of typchd69
+  type.chd.weight$weight[i] = mean(subset(wcgs, typchd69 == a)$weight) # find the mean of the weight when the typchd69 equals each unique value
+}
+
+print(type.chd.weight)
 
 ```
 
 B. Now do the same thing, but now don’t use a loop
 
 ```{r}
-levels(wcgs$typchd69) = list()
-group_by(wcgs, chd69)
+library(dplyr)
+weight.by.chd=wcgs%>%
+  select(weight,typchd69)%>%
+  group_by(typchd69)%>%
+  summarize(mean=mean(weight))
+
+print(weight.by.chd)
 ```
 
 
