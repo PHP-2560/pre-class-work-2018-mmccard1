@@ -87,6 +87,9 @@ Extract the attributes (and their values) of the HTML element that holds the tim
 
 ```{r}
 
+timestamp <- html_node(webpage, ".wsod_disclaimer span")
+html_attrs(timestamp)
+
 ```
 
 9. Extract the values of the blue percentage-bars from the “Trending Tickers” table (bottom right of the web page.)
