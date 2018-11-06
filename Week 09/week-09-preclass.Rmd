@@ -25,6 +25,7 @@ options(scipen = 3, digits = 3)
 ```{r}
 library(rvest)
 library(httr)
+
 site_url <- "https://money.cnn.com/data/us_markets/"
 webpage <- read_html(site_url)
 ```
@@ -32,14 +33,16 @@ webpage <- read_html(site_url)
 2. Get the session details (status, type, size) of the above mentioned URL.
 
 ```{r}
-
-str(webpage)
+html_session(site_url)
 
 ```
 
 3. Extract all of the sector names from the “Stock Sectors” table (bottom left of the web page.)
 
 ```{r}
+
+# "Stock Sectors" css identified with SelectorGadget tool. Extract appropriate nodes and their associated text values.
+
 stock_sectors <- html_text(html_nodes(webpage, "#wsod_sectorPerformance .wsod_firstCol"))
 
 stock_sectors
@@ -48,6 +51,9 @@ stock_sectors
 4. Extract all of the “3 Month % Change” values from the “Stock Sectors” table.
 
 ```{r}
+
+# "3 Month % Change" css identified with SelectorGadget tool. Extract appropriate nodes and their associated text values.
+
 three_change <- html_text(html_nodes(webpage, "#wsod_sectorPerformance td.wsod_aRight"))
 
 three_change
@@ -56,7 +62,11 @@ three_change
 5. Extract the table “What’s Moving” (top middle of the web page) into a data-frame.
 
 ```{r}
+
+# Select nodes identified as tables and use html_table function which converts the tables to a data frame. Here we are only interested in the first table, the "What's Moving" table, as indicated by the [1] index.
+
 what_moving <- html_table(html_nodes(webpage, "table")[1])
+
 what_moving 
 ```
 
@@ -64,14 +74,18 @@ what_moving
 Hint: the base URL is “https://money.cnn.com”
 
 ```{r}
-
+# Column css identified with the SelectorGadget tool. Only the first ten rows are part of the "What's Moving" table, the remaining values of the column are actually part of the "Stock Sectors" table
 what_moving_nodes <- html_nodes(webpage, ".wsod_firstCol")[1:10]
-what_moving_link_frag <- html_nodes(table1_nodes, "a") %>% 
+
+# Select the nodes labelled as "a" for hyperlinks and extract the "href" attribute containing the link fragment associated with that item
+what_moving_link_frag <- html_nodes(what_moving_nodes, "a") %>% 
   html_attr("href")
 
 base_url <- "https://money.cnn.com"
 
+# Attach the link fragments to the base url to create working, complete links
 what_moving_full_links <- paste(base_url, what_moving_link_frag, sep='')
+
 what_moving_full_links 
 
 ```
@@ -79,8 +93,11 @@ what_moving_full_links
 7. Extract the titles under the “Latest News” section (bottom middle of the web page.)
 
 ```{r}
+# Latest news css identified with SelectorGadget tool
 
 latest_news <- html_text(html_nodes(webpage, "#section_latestnews li"))
+
+latest_news
 ```
 
 8. To understand the structure of the data in a web page, it is often useful to know what the underlying attributes are of the text you see.
@@ -88,8 +105,11 @@ Extract the attributes (and their values) of the HTML element that holds the tim
 
 ```{r}
 
-timestamp <- html_node(webpage, ".wsod_disclaimer span")
-html_attrs(timestamp)
+# Timestamp css identified with the SelectorGadet tool
+
+timestamp <- html_node(webpage, ".wsod_disclaimer span") %>% html_attrs()
+
+timestamp
 
 ```
 
@@ -97,9 +117,11 @@ html_attrs(timestamp)
 Hint: in this case, the values are stored under the “class” attribute.
 
 ```{r}
-blue_bars <- html_nodes(webpage, ".bars")
-bar_values <- html_attr(blue_bars, "class")
-bar_nums <- as.numeric(sub("bars pct", '', bar_values))
+# Extract the nodes that have class "bars" and select the class attribute
+blue_bars <- html_nodes(webpage, ".bars") %>% html_attr("class")
+
+# Each of the values is preceded by "bars pct" followed by the percentage. Remove these characters and convert to a number. 
+bar_nums <- as.numeric(sub("bars pct", '', blue_bars))
 
 bar_nums
 ```
@@ -111,5 +133,7 @@ bar_nums
 
 svg_link_frag <- html_nodes(webpage, ".logo-cnn") %>% html_attr("src")
 svg_full_link <- paste(base_url, svg_link_frag, sep='')
+
+svg_full_link
 ```
 
