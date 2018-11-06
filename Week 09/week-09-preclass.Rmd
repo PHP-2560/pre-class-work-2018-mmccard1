@@ -107,6 +107,9 @@ bar_nums
 10. Get the links of all of the “svg” images on the web page.
 
 ```{r}
+# Used the Ctrl+F function on the Inspect page of the webpage source to find all instances of "svg", the images associated with "svg" were all of class="logo-cnn"
 
+svg_link_frag <- html_nodes(webpage, ".logo-cnn") %>% html_attr("src")
+svg_full_link <- paste(base_url, svg_link_frag, sep='')
 ```
 
